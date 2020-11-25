@@ -16,7 +16,7 @@ VALUES (1, 1, '2018-09-11', '2018-09-26'),
 (3, 3, '2021-10-01', '2021-10-14');
 
 
-INSERT INTO property_reviews (name, birth_year)
-VALUES ('Jamie Jones', 1985);
-VALUES ('Jamie Jones', 1985);
-VALUES ('Jamie Jones', 1985);
+INSERT INTO property_reviews (guest_id, property_id, reservation_id, rating, message)
+VALUES (1, 1, 1, 5, 'Great!');
+VALUES (2, 2, 2, 4,'Swell!');
+VALUES (3, 3, 3, 3, 'Meh!');
