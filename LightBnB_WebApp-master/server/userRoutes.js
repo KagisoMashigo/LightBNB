@@ -32,7 +32,7 @@ module.exports = function(router, database) {
 
     return database.getUserWithEmail(email)
     .then(user => {
-    console.log("USER: ", user)
+    // console.log("USER: ", user)
 
       if (bcrypt.compareSync(password, user.password)) {
         return user;

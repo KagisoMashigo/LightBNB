@@ -17,12 +17,13 @@ const pool = new Pool({
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithEmail = function(email) {
-
-  return pool.query(`
+  const sqlQuery = `
   SELECT * 
   FROM users
-  WHERE email = '${email}';
-  `)
+  WHERE email = $1;
+  `;
+  const values = [email];
+  return pool.query(sqlQuery, values)
   .then(res => res.rows[0])
  
 }
@@ -34,7 +35,14 @@ exports.getUserWithEmail = getUserWithEmail;
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function(id) {
-  return Promise.resolve(users[id]);
+  const sqlQuery = `
+  SELECT * 
+  FROM users
+  WHERE id = $1;
+  `;
+  const values = [id];
+  return pool.query(sqlQuery, values)
+  .then(res => res.rows[0])
 }
 exports.getUserWithId = getUserWithId;
 
@@ -45,10 +53,15 @@ exports.getUserWithId = getUserWithId;
  * @return {Promise<{}>} A promise to the user.
  */
 const addUser =  function(user) {
-  const userId = Object.keys(users).length + 1;
-  user.id = userId;
-  users[userId] = user;
-  return Promise.resolve(user);
+  const sqlQuery = `
+  INSERT INTO users (name, email, password) 
+  VALUES ($1, $2, $3)
+  RETURNING *;
+  `;
+  const values = [user.name, user.email, user.password];
+  console.log(user)
+  return pool.query(sqlQuery, values)
+  .then(res => res.rows[0])
 }
 exports.addUser = addUser;
 
